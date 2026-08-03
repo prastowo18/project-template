@@ -1,7 +1,15 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { LoginForm } from "@/features/auth";
 import { getCurrentSession } from "@/server/authorization";
 
@@ -27,6 +35,13 @@ export default async function LoginPage() {
       <CardContent>
         <LoginForm />
       </CardContent>
+
+      <CardFooter className="justify-center text-sm">
+        Belum memiliki akun?{" "}
+        <Link href="/register" className="font-medium underline-offset-4 hover:underline">
+          Daftar
+        </Link>
+      </CardFooter>
     </Card>
   );
 }

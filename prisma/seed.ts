@@ -171,6 +171,7 @@ async function seedInitialSuperadmin() {
       baseURL: env.BETTER_AUTH_URL,
       secret: env.BETTER_AUTH_SECRET,
       autoSignIn: false,
+      assignDefaultRole: false,
     });
 
     await seedAuth.api.signUpEmail({
