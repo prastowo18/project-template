@@ -10,6 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { env } from "@/env/server";
 import { RegisterForm } from "@/features/auth";
 import { getCurrentSession } from "@/server/authorization";
 
@@ -19,6 +20,10 @@ export const metadata: Metadata = {
 };
 
 export default async function RegisterPage() {
+  if (!env.PUBLIC_REGISTRATION_ENABLED) {
+    redirect("/login");
+  }
+
   const session = await getCurrentSession();
 
   if (session) {
@@ -31,6 +36,7 @@ export default async function RegisterPage() {
         <CardTitle>
           <h1>Buat akun</h1>
         </CardTitle>
+
         <CardDescription>Lengkapi data untuk membuat akun baru.</CardDescription>
       </CardHeader>
 

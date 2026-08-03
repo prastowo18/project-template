@@ -10,6 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { env } from "@/env/server";
 import { LoginForm } from "@/features/auth";
 import { getCurrentSession } from "@/server/authorization";
 
@@ -31,6 +32,7 @@ export default async function LoginPage() {
         <CardTitle>
           <h1>Masuk</h1>
         </CardTitle>
+
         <CardDescription>Masukkan email dan password untuk melanjutkan.</CardDescription>
       </CardHeader>
 
@@ -38,11 +40,17 @@ export default async function LoginPage() {
         <LoginForm />
       </CardContent>
 
-      <CardFooter className="justify-center text-sm">
-        Belum memiliki akun?{" "}
-        <Link href="/register" className="font-medium underline-offset-4 hover:underline">
-          Daftar
-        </Link>
+      <CardFooter className="justify-center text-center text-sm">
+        {env.PUBLIC_REGISTRATION_ENABLED ? (
+          <span>
+            Belum memiliki akun?{" "}
+            <Link href="/register" className="font-medium underline-offset-4 hover:underline">
+              Daftar
+            </Link>
+          </span>
+        ) : (
+          <span className="text-muted-foreground">Pendaftaran akun baru dinonaktifkan.</span>
+        )}
       </CardFooter>
     </Card>
   );

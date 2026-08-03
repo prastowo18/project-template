@@ -48,6 +48,11 @@ test.describe("authentication pages", () => {
   });
 
   test("navigates from login to registration", async ({ page }) => {
+    test.skip(
+      process.env.PUBLIC_REGISTRATION_ENABLED !== "true",
+      "Public registration is disabled by default.",
+    );
+
     await page.goto("/login");
 
     await page
@@ -66,6 +71,11 @@ test.describe("authentication pages", () => {
   });
 
   test("shows registration form", async ({ page }) => {
+    test.skip(
+      process.env.PUBLIC_REGISTRATION_ENABLED !== "true",
+      "Public registration is disabled by default.",
+    );
+
     await page.goto("/register");
 
     await expect(page.getByLabel("Nama")).toBeVisible();
@@ -88,6 +98,11 @@ test.describe("authentication pages", () => {
   });
 
   test("validates mismatched registration passwords", async ({ page }) => {
+    test.skip(
+      process.env.PUBLIC_REGISTRATION_ENABLED !== "true",
+      "Public registration is disabled by default.",
+    );
+
     await page.goto("/register");
 
     await page.getByLabel("Nama").fill("Test User");
@@ -120,6 +135,11 @@ test.describe("authentication pages", () => {
   });
 
   test("requires terms acceptance", async ({ page }) => {
+    test.skip(
+      process.env.PUBLIC_REGISTRATION_ENABLED !== "true",
+      "Public registration is disabled by default.",
+    );
+
     await page.goto("/register");
 
     await page.getByLabel("Nama").fill("Test User");

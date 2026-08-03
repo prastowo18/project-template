@@ -8,4 +8,6 @@ export const auth = createAuth({
   database: db,
   baseURL: env.BETTER_AUTH_URL,
   secret: env.BETTER_AUTH_SECRET,
+
+  publicRegistrationEnabled: env.PUBLIC_REGISTRATION_ENABLED,
 });

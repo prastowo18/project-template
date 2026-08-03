@@ -77,6 +77,7 @@ Jangan menyalin secret dari project lain.
 ```env
 BETTER_AUTH_URL="http://localhost:3000"
 SITE_INDEXING_ENABLED="false"
+PUBLIC_REGISTRATION_ENABLED="false"
 ```
 
 Untuk production gunakan domain canonical.

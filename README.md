@@ -70,6 +70,7 @@ Panduan lengkap tersedia di [docs/SETUP.md](docs/SETUP.md).
 | `BETTER_AUTH_SECRET`          | Ya    | Secret Better Auth minimal 32 karakter            |
 | `BETTER_AUTH_URL`             | Ya    | URL canonical aplikasi                            |
 | `SITE_INDEXING_ENABLED`       | Tidak | Search engine indexing, default `false`           |
+| `PUBLIC_REGISTRATION_ENABLED` | Tidak | Registrasi akun publik, default `false`           |
 | `SKIP_ENV_VALIDATION`         | Tidak | Lewati validasi env pada kondisi build tertentu   |
 | `INITIAL_SUPERADMIN_NAME`     | Tidak | Nama superadmin awal                              |
 | `INITIAL_SUPERADMIN_EMAIL`    | Tidak | Email superadmin awal                             |
@@ -146,9 +147,12 @@ pnpm authz:check
 pnpm seed:check
 ```
 
-### Dependency audit
+### Security dan dependency audit
 
 ```bash
+pnpm security:audit
+pnpm security:check
+pnpm release:check
 pnpm knip
 pnpm knip:production
 ```
@@ -256,6 +260,8 @@ Workflow: `.github/workflows/ci.yml`
 - [Setup lokal](docs/SETUP.md)
 - [Deployment](docs/DEPLOYMENT.md)
 - [Menggunakan repository sebagai template](docs/TEMPLATE-USAGE.md)
+- [Release baseline](docs/RELEASE.md)
+- [Security policy](SECURITY.md)
 
 ## Keamanan
 

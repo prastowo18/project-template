@@ -46,7 +46,11 @@
     "verify": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm test:run && pnpm build",
     "verify:all": "pnpm verify && pnpm test:e2e",
     "knip": "knip --no-progress",
-    "knip:production": "knip --production --no-progress --exclude files,exports,types,binaries"
+    "knip:production": "knip --production --no-progress --exclude files,exports,types,binaries",
+    "security:audit": "pnpm audit --audit-level high",
+    "security:check": "pnpm security:audit && pnpm knip && pnpm knip:production",
+    "release:check": "pnpm security:check && pnpm db:validate && pnpm authz:check && pnpm seed:check && pnpm verify:all && pnpm test:e2e:registration",
+    "test:e2e:registration": "node scripts/run-registration-e2e.mjs"
   },
   "dependencies": {
     "@better-auth/prisma-adapter": "1.6.25",

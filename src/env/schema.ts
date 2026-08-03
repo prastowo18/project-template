@@ -38,6 +38,8 @@ export function createServerEnv(runtimeEnv: RuntimeEnvironment = process.env) {
       BETTER_AUTH_URL: z.url(),
 
       SITE_INDEXING_ENABLED: booleanStringSchema,
+
+      PUBLIC_REGISTRATION_ENABLED: booleanStringSchema,
     },
 
     experimental__runtimeEnv: runtimeEnv,

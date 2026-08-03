@@ -3,15 +3,18 @@ import { betterAuth } from "better-auth/minimal";
 import { nextCookies } from "better-auth/next-js";
 
 import { ROLES } from "@/authorization";
-import { createAuthRateLimitConfig } from "@/security";
+import { APPLICATION } from "@/config";
+import { createAuthRateLimitConfig, createRegistrationPolicy } from "@/security";
 import { createAuthAuditHooks } from "@/server/auth/audit-hooks";
 import type { AppPrismaClient } from "@/server/db/factory";
+
 type CreateAuthOptions = {
   database: AppPrismaClient;
   baseURL: string;
   secret: string;
   autoSignIn?: boolean;
   assignDefaultRole?: boolean;
+  publicRegistrationEnabled?: boolean;
 };
 
 export function createAuth({
@@ -20,16 +23,19 @@ export function createAuth({
   secret,
   autoSignIn = true,
   assignDefaultRole = true,
+  publicRegistrationEnabled = false,
 }: CreateAuthOptions) {
   return betterAuth({
-    rateLimit: createAuthRateLimitConfig(),
-    hooks: createAuthAuditHooks({
-      enabled: assignDefaultRole,
-    }),
-    appName: "Next.js Standard Template",
+    appName: APPLICATION.name,
 
     baseURL,
     secret,
+
+    rateLimit: createAuthRateLimitConfig(),
+
+    hooks: createAuthAuditHooks({
+      enabled: assignDefaultRole,
+    }),
 
     database: prismaAdapter(database, {
       provider: "postgresql",
@@ -80,8 +86,12 @@ export function createAuth({
 
     emailAndPassword: {
       enabled: true,
+
+      ...createRegistrationPolicy(publicRegistrationEnabled),
+
       autoSignIn,
       minPasswordLength: 12,
+      maxPasswordLength: 128,
     },
 
     plugins: [
