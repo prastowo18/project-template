@@ -26,7 +26,8 @@
     "env:check": "tsx scripts/check-env.ts",
     "auth:generate": "pnpm dlx auth@1.6.25 generate --config src/server/auth/auth.cli.ts --output prisma/auth.generated.prisma --yes",
     "auth:info": "pnpm dlx auth@1.6.25 info --config src/server/auth/auth.cli.ts",
-    "authz:check": "tsx scripts/check-authorization.ts"
+    "authz:check": "tsx scripts/check-authorization.ts",
+    "seed:check": "tsx scripts/check-seed-catalog.ts"
   },
   "dependencies": {
     "@better-auth/prisma-adapter": "1.6.25",

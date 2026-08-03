@@ -8,9 +8,10 @@ type CreateAuthOptions = {
   database: AppPrismaClient;
   baseURL: string;
   secret: string;
+  autoSignIn?: boolean;
 };
 
-export function createAuth({ database, baseURL, secret }: CreateAuthOptions) {
+export function createAuth({ database, baseURL, secret, autoSignIn = true }: CreateAuthOptions) {
   return betterAuth({
     appName: "Next.js Standard Template",
 
@@ -23,6 +24,7 @@ export function createAuth({ database, baseURL, secret }: CreateAuthOptions) {
 
     emailAndPassword: {
       enabled: true,
+      autoSignIn,
       minPasswordLength: 12,
     },
 
