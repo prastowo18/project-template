@@ -1,3 +1,4 @@
+export { LoginForm } from "./components/login-form";
 export {
   AUTH_VALIDATION,
   type LoginFormData,
