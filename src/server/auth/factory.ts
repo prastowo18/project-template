@@ -3,6 +3,7 @@ import { betterAuth } from "better-auth/minimal";
 import { nextCookies } from "better-auth/next-js";
 
 import { ROLES } from "@/authorization";
+import { createAuthAuditHooks } from "@/server/auth/audit-hooks";
 import type { AppPrismaClient } from "@/server/db/factory";
 
 type CreateAuthOptions = {
@@ -21,6 +22,9 @@ export function createAuth({
   assignDefaultRole = true,
 }: CreateAuthOptions) {
   return betterAuth({
+    hooks: createAuthAuditHooks({
+      enabled: assignDefaultRole,
+    }),
     appName: "Next.js Standard Template",
 
     baseURL,

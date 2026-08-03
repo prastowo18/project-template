@@ -10,7 +10,7 @@ import {
 import type { Prisma } from "@/generated/prisma/client";
 import { db } from "@/server/db/client";
 
-type WriteAuditLogInput = {
+export type WriteAuditLogInput = {
   action: AuditAction;
   category: AuditCategory;
   outcome?: AuditOutcome;
@@ -76,4 +76,12 @@ export async function writeAuditLog(input: WriteAuditLogInput) {
         : {}),
     },
   });
+}
+
+export async function safeWriteAuditLog(input: WriteAuditLogInput): Promise<void> {
+  try {
+    await writeAuditLog(input);
+  } catch (error) {
+    console.error("Audit log could not be written.", error);
+  }
 }

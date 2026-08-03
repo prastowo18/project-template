@@ -1,1 +1,1 @@
-export { writeAuditLog } from "./write-audit-log";
+export { safeWriteAuditLog, writeAuditLog, type WriteAuditLogInput } from "./write-audit-log";
