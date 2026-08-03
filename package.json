@@ -31,7 +31,8 @@
     "db:check": "tsx scripts/check-database-connection.ts",
     "db:tables": "tsx scripts/check-database-tables.ts",
     "db:status": "prisma migrate status",
-    "seed:verify": "tsx scripts/check-seed-data.ts"
+    "seed:verify": "tsx scripts/check-seed-data.ts",
+    "auth:schema-check": "tsx scripts/check-auth-schemas.ts"
   },
   "dependencies": {
     "@better-auth/prisma-adapter": "1.6.25",
