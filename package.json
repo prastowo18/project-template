@@ -28,7 +28,9 @@
     "auth:info": "pnpm dlx auth@1.6.25 info --config src/server/auth/auth.cli.ts",
     "authz:check": "tsx scripts/check-authorization.ts",
     "seed:check": "tsx scripts/check-seed-catalog.ts",
-    "db:check": "tsx scripts/check-database-connection.ts"
+    "db:check": "tsx scripts/check-database-connection.ts",
+    "db:tables": "tsx scripts/check-database-tables.ts",
+    "db:status": "prisma migrate status"
   },
   "dependencies": {
     "@better-auth/prisma-adapter": "1.6.25",
