@@ -34,7 +34,10 @@
     "seed:verify": "tsx scripts/check-seed-data.ts",
     "auth:schema-check": "tsx scripts/check-auth-schemas.ts",
     "clean": "rm -rf .next coverage playwright-report test-results",
-    "typegen": "next typegen"
+    "typegen": "next typegen",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "@better-auth/prisma-adapter": "1.6.25",
@@ -64,9 +67,14 @@
     "@commitlint/cli": "21.2.1",
     "@commitlint/config-conventional": "21.2.0",
     "@tailwindcss/postcss": "^4",
+    "@testing-library/dom": "10.4.1",
+    "@testing-library/jest-dom": "7.0.0",
+    "@testing-library/react": "16.3.2",
+    "@testing-library/user-event": "14.6.1",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@vitejs/plugin-react": "6.0.5",
     "commitizen": "4.3.2",
     "cz-git": "1.13.1",
     "dotenv": "17.4.2",
@@ -75,13 +83,16 @@
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-simple-import-sort": "14.0.0",
     "husky": "9.1.7",
+    "jsdom": "30.0.1",
     "lint-staged": "17.3.0",
     "prettier": "3.9.6",
     "prettier-plugin-tailwindcss": "0.8.1",
     "prisma": "^7.9.1",
     "tailwindcss": "^4",
     "tsx": "4.23.1",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vite": "8.2.0",
+    "vitest": "4.1.10"
   },
   "engines": {
     "node": ">=22.18.0 <23"

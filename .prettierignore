@@ -14,3 +14,6 @@ next-env.d.ts
 
 # Generated Prisma Client
 src/generated/prisma
+
+# Test cache
+.vitest

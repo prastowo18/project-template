@@ -45,3 +45,6 @@ next-env.d.ts
 
 # Environment template is safe to commit
 !.env.example
+
+# Test cache
+.vitest
