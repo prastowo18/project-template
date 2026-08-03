@@ -143,3 +143,9 @@ test.describe("authentication pages", () => {
     await expect(page.getByText("Anda harus menyetujui syarat dan ketentuan.")).toBeVisible();
   });
 });
+
+test("protects audit log page from unauthenticated access", async ({ page }) => {
+  await page.goto("/admin/audit-logs");
+
+  await expect(page).toHaveURL(/\/login$/);
+});
