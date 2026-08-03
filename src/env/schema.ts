@@ -5,7 +5,7 @@ const databaseUrlSchema = z
   .string()
   .url()
   .refine((value) => value.startsWith("postgresql://") || value.startsWith("postgres://"), {
-    message: "DATABASE_URL harus menggunakan protokol postgresql:// atau postgres://",
+    message: "Database URL harus menggunakan protokol postgresql:// atau postgres://",
   });
 
 const authSecretSchema = z
@@ -23,6 +23,7 @@ export function createServerEnv(runtimeEnv: NodeJS.ProcessEnv = process.env) {
   return createEnv({
     server: {
       DATABASE_URL: databaseUrlSchema,
+      DIRECT_DATABASE_URL: databaseUrlSchema,
       BETTER_AUTH_SECRET: authSecretSchema,
       BETTER_AUTH_URL: z.url(),
     },
