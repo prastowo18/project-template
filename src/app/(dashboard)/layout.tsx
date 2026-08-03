@@ -1,9 +1,9 @@
-import { Home, ScrollText } from "lucide-react";
+import { Home, ScrollText, Users } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import type { ReactNode } from "react";
 
-import { PERMISSIONS } from "@/authorization";
+import { type PermissionKey, PERMISSIONS } from "@/authorization";
 import { Button } from "@/components/ui/button";
 import { LogoutButton } from "@/features/auth";
 import { getCurrentSession, requirePermission } from "@/server/authorization";
@@ -20,10 +20,10 @@ function hasStatusCode(error: unknown, expectedStatusCode: number) {
   return error.statusCode === expectedStatusCode;
 }
 
-async function canReadAuditLogs() {
+async function canUsePermission(permission: PermissionKey) {
   try {
     await requirePermission({
-      permission: PERMISSIONS.AUDIT_READ,
+      permission,
     });
 
     return true;
@@ -43,7 +43,10 @@ export default async function DashboardLayout({ children }: DashboardLayoutProps
     redirect("/login");
   }
 
-  const showAuditLogNavigation = await canReadAuditLogs();
+  const [showUserNavigation, showAuditLogNavigation] = await Promise.all([
+    canUsePermission(PERMISSIONS.USER_READ),
+    canUsePermission(PERMISSIONS.AUDIT_READ),
+  ]);
 
   return (
     <div className="min-h-screen bg-muted/30">
@@ -68,6 +71,15 @@ export default async function DashboardLayout({ children }: DashboardLayoutProps
                 Dashboard
               </Link>
             </Button>
+
+            {showUserNavigation ? (
+              <Button variant="ghost" size="sm" asChild>
+                <Link href="/admin/users">
+                  <Users />
+                  Pengguna
+                </Link>
+              </Button>
+            ) : null}
 
             {showAuditLogNavigation ? (
               <Button variant="ghost" size="sm" asChild>
