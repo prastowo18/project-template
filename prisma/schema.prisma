@@ -128,3 +128,35 @@ model RolePermission {
   @@index([permissionId])
   @@map("role_permission")
 }
+
+model AuditLog {
+  id String @id @default(cuid())
+
+  action   String
+  category String
+  outcome  String @default("success")
+
+  actorUserId String?
+  actorEmail  String?
+
+  subjectType String?
+  subjectId   String?
+
+  scopeType String?
+  scopeId   String?
+
+  requestId String?
+  ipAddress String?
+  userAgent String?
+
+  metadata Json?
+
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([action, createdAt])
+  @@index([actorUserId, createdAt])
+  @@index([subjectType, subjectId, createdAt])
+  @@index([scopeType, scopeId, createdAt])
+  @@map("audit_logs")
+}
