@@ -10,7 +10,7 @@
     "format": "prettier . --write",
     "format:check": "prettier . --check",
     "lint:fix": "eslint . --fix",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "next typegen && tsc --noEmit",
     "commit": "cz",
     "commitlint": "commitlint",
     "prepare": "husky",
@@ -32,7 +32,9 @@
     "db:tables": "tsx scripts/check-database-tables.ts",
     "db:status": "prisma migrate status",
     "seed:verify": "tsx scripts/check-seed-data.ts",
-    "auth:schema-check": "tsx scripts/check-auth-schemas.ts"
+    "auth:schema-check": "tsx scripts/check-auth-schemas.ts",
+    "clean": "rm -rf .next coverage playwright-report test-results",
+    "typegen": "next typegen"
   },
   "dependencies": {
     "@better-auth/prisma-adapter": "1.6.25",
