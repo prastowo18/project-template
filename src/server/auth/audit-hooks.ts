@@ -1,6 +1,7 @@
 import { createAuthMiddleware } from "better-auth/api";
 
 import { type AuthAuditIdentity, getAuditRequestContext, resolveAuthAuditEvent } from "@/audit";
+import { logger, serializeError } from "@/observability";
 
 type UnknownRecord = Record<string, unknown>;
 
@@ -32,7 +33,9 @@ function normalizeAuthIdentity(value: unknown): AuthAuditIdentity | undefined {
   }
 
   const user = asRecord(root.user);
+
   const nestedSession = asRecord(root.session);
+
   const session = nestedSession ?? root;
 
   const userId = readString(user, "id") ?? readString(session, "userId");
@@ -46,9 +49,23 @@ function normalizeAuthIdentity(value: unknown): AuthAuditIdentity | undefined {
   }
 
   return {
-    ...(userId ? { userId } : {}),
-    ...(email ? { email } : {}),
-    ...(sessionId ? { sessionId } : {}),
+    ...(userId
+      ? {
+          userId,
+        }
+      : {}),
+
+    ...(email
+      ? {
+          email,
+        }
+      : {}),
+
+    ...(sessionId
+      ? {
+          sessionId,
+        }
+      : {}),
   };
 }
 
@@ -100,7 +117,11 @@ export function createAuthAuditHooks(options: CreateAuthAuditHooksOptions = {}) 
           ...requestContext,
         });
       } catch (error) {
-        console.error("Authentication audit hook failed.", error);
+        logger.error("auth.audit_hook_failed", {
+          path: context.path,
+          requestId: requestContext.requestId,
+          error: serializeError(error),
+        });
       }
     }),
   };

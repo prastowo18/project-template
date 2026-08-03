@@ -54,3 +54,21 @@ test.describe("security headers", () => {
     expect(headers?.["x-powered-by"]).toBeUndefined();
   });
 });
+
+test("adds generated request correlation ID", async ({ request }) => {
+  const response = await request.get("/api/health");
+
+  expect(response.headers()["x-request-id"]).toMatch(
+    /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i,
+  );
+});
+
+test("preserves valid incoming correlation ID", async ({ request }) => {
+  const response = await request.get("/api/health", {
+    headers: {
+      "x-request-id": "e2e-request-2026",
+    },
+  });
+
+  expect(response.headers()["x-request-id"]).toBe("e2e-request-2026");
+});

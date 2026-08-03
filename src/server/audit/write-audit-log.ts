@@ -8,6 +8,7 @@ import {
   sanitizeAuditMetadata,
 } from "@/audit";
 import type { Prisma } from "@/generated/prisma/client";
+import { logger, serializeError } from "@/observability";
 import { db } from "@/server/db/client";
 
 export type WriteAuditLogInput = {
@@ -39,13 +40,21 @@ function normalizeOptionalText(value: string | null | undefined) {
 
 export async function writeAuditLog(input: WriteAuditLogInput) {
   const actorUserId = normalizeOptionalText(input.actorUserId);
+
   const actorEmail = normalizeOptionalText(input.actorEmail);
+
   const subjectType = normalizeOptionalText(input.subjectType);
+
   const subjectId = normalizeOptionalText(input.subjectId);
+
   const scopeType = normalizeOptionalText(input.scopeType);
+
   const scopeId = normalizeOptionalText(input.scopeId);
+
   const requestId = normalizeOptionalText(input.requestId);
+
   const ipAddress = normalizeOptionalText(input.ipAddress);
+
   const userAgent = normalizeOptionalText(input.userAgent);
 
   const metadata = input.metadata ? sanitizeAuditMetadata(input.metadata) : undefined;
@@ -56,18 +65,59 @@ export async function writeAuditLog(input: WriteAuditLogInput) {
       category: input.category,
       outcome: input.outcome ?? AUDIT_OUTCOMES.SUCCESS,
 
-      ...(actorUserId ? { actorUserId } : {}),
-      ...(actorEmail ? { actorEmail } : {}),
+      ...(actorUserId
+        ? {
+            actorUserId,
+          }
+        : {}),
 
-      ...(subjectType ? { subjectType } : {}),
-      ...(subjectId ? { subjectId } : {}),
+      ...(actorEmail
+        ? {
+            actorEmail,
+          }
+        : {}),
 
-      ...(scopeType ? { scopeType } : {}),
-      ...(scopeId ? { scopeId } : {}),
+      ...(subjectType
+        ? {
+            subjectType,
+          }
+        : {}),
 
-      ...(requestId ? { requestId } : {}),
-      ...(ipAddress ? { ipAddress } : {}),
-      ...(userAgent ? { userAgent } : {}),
+      ...(subjectId
+        ? {
+            subjectId,
+          }
+        : {}),
+
+      ...(scopeType
+        ? {
+            scopeType,
+          }
+        : {}),
+
+      ...(scopeId
+        ? {
+            scopeId,
+          }
+        : {}),
+
+      ...(requestId
+        ? {
+            requestId,
+          }
+        : {}),
+
+      ...(ipAddress
+        ? {
+            ipAddress,
+          }
+        : {}),
+
+      ...(userAgent
+        ? {
+            userAgent,
+          }
+        : {}),
 
       ...(metadata
         ? {
@@ -82,6 +132,11 @@ export async function safeWriteAuditLog(input: WriteAuditLogInput): Promise<void
   try {
     await writeAuditLog(input);
   } catch (error) {
-    console.error("Audit log could not be written.", error);
+    logger.error("audit.write_failed", {
+      action: input.action,
+      category: input.category,
+      requestId: input.requestId,
+      error: serializeError(error),
+    });
   }
 }
