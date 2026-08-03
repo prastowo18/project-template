@@ -28,7 +28,9 @@ export default async function LoginPage() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Masuk</CardTitle>
+        <CardTitle>
+          <h1>Masuk</h1>
+        </CardTitle>
         <CardDescription>Masukkan email dan password untuk melanjutkan.</CardDescription>
       </CardHeader>
 

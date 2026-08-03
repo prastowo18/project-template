@@ -12,7 +12,13 @@ export default defineConfig({
     environment: "jsdom",
     globals: false,
     setupFiles: ["./tests/setup.ts"],
-    include: ["tests/**/*.{test,spec}.{ts,tsx}"],
+
+    // Playwright E2E tests dijalankan oleh Playwright,
+    // bukan oleh Vitest.
+    include: ["tests/unit/**/*.{test,spec}.{ts,tsx}"],
+
+    exclude: ["tests/e2e/**", "node_modules/**", ".next/**"],
+
     clearMocks: true,
     mockReset: true,
     restoreMocks: true,

@@ -48,3 +48,6 @@ next-env.d.ts
 
 # Test cache
 .vitest
+playwright-report
+test-results
+playwright/.cache

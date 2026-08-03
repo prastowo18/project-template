@@ -28,7 +28,9 @@ export default async function RegisterPage() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Buat akun</CardTitle>
+        <CardTitle>
+          <h1>Buat akun</h1>
+        </CardTitle>
         <CardDescription>Lengkapi data untuk membuat akun baru.</CardDescription>
       </CardHeader>
 
