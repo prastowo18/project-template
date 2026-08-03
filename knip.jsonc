@@ -1,0 +1,25 @@
+{
+  "$schema": "https://unpkg.com/knip@6/schema.json",
+
+  "entry": ["src/server/auth/auth.cli.ts"],
+
+  "ignoreDependencies": ["@better-auth/prisma-adapter"],
+
+  "ignoreExportsUsedInFile": true,
+
+  "ignoreIssues": {
+    "src/generated/prisma/**": [
+      "exports",
+      "types",
+      "enumMembers",
+      "namespaceMembers",
+      "duplicates",
+    ],
+
+    "src/components/ui/**": ["exports", "types"],
+
+    "src/**/index.ts": ["exports", "types"],
+
+    "src/lib/auth-client.ts": ["exports", "types"],
+  },
+}

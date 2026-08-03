@@ -7,8 +7,6 @@ export const roleAssignmentSchema = z.object({
   roleId: z.string().trim().min(1).max(191),
 });
 
-export type RoleAssignmentInput = z.infer<typeof roleAssignmentSchema>;
-
 export type RoleRemovalBlockReason = "self-superadmin" | "last-superadmin";
 
 type RoleRemovalPolicyInput = {

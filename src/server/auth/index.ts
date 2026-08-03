@@ -1,1 +1,1 @@
-export { auth, type AuthSession } from "./auth";
+export { auth } from "./auth";

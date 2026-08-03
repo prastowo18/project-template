@@ -7,8 +7,6 @@ export const permissionAssignmentSchema = z.object({
   permissionId: z.string().trim().min(1).max(191),
 });
 
-export type PermissionAssignmentInput = z.infer<typeof permissionAssignmentSchema>;
-
 export type PermissionMutationBlockReason = "superadmin-locked";
 
 type PermissionMutationPolicyInput = {
