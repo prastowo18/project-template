@@ -1,4 +1,4 @@
-import { Home, ScrollText, Users } from "lucide-react";
+import { Home, ScrollText, ShieldCheck, Users } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import type { ReactNode } from "react";
@@ -43,8 +43,9 @@ export default async function DashboardLayout({ children }: DashboardLayoutProps
     redirect("/login");
   }
 
-  const [showUserNavigation, showAuditLogNavigation] = await Promise.all([
+  const [showUserNavigation, showRoleNavigation, showAuditLogNavigation] = await Promise.all([
     canUsePermission(PERMISSIONS.USER_READ),
+    canUsePermission(PERMISSIONS.ROLE_READ),
     canUsePermission(PERMISSIONS.AUDIT_READ),
   ]);
 
@@ -77,6 +78,15 @@ export default async function DashboardLayout({ children }: DashboardLayoutProps
                 <Link href="/admin/users">
                   <Users />
                   Pengguna
+                </Link>
+              </Button>
+            ) : null}
+
+            {showRoleNavigation ? (
+              <Button variant="ghost" size="sm" asChild>
+                <Link href="/admin/roles">
+                  <ShieldCheck />
+                  Role
                 </Link>
               </Button>
             ) : null}

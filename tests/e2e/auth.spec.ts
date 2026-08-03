@@ -155,3 +155,9 @@ test("protects user administration page from unauthenticated access", async ({ p
 
   await expect(page).toHaveURL(/\/login$/);
 });
+
+test("protects role administration page from unauthenticated access", async ({ page }) => {
+  await page.goto("/admin/roles");
+
+  await expect(page).toHaveURL(/\/login$/);
+});
