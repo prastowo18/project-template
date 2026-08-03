@@ -2,6 +2,12 @@ import type { NextConfig } from "next";
 
 const isProduction = process.env.NODE_ENV === "production";
 
+const outputMode = process.env.NEXT_OUTPUT_MODE?.trim();
+
+if (outputMode && outputMode !== "standalone") {
+  throw new Error('NEXT_OUTPUT_MODE hanya mendukung nilai "standalone".');
+}
+
 const contentSecurityPolicy = [
   "base-uri 'self'",
   "form-action 'self'",
@@ -43,14 +49,21 @@ const securityHeaders = [
     ? [
         {
           key: "Strict-Transport-Security",
-          value: "max-age=31536000",
+          value: "max-age=31536000; includeSubDomains",
         },
       ]
     : []),
 ];
 
 const nextConfig: NextConfig = {
+  reactStrictMode: true,
   poweredByHeader: false,
+
+  ...(outputMode === "standalone"
+    ? {
+        output: "standalone" as const,
+      }
+    : {}),
 
   async headers() {
     return [

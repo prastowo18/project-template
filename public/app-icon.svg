@@ -1,0 +1,31 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 512 512"
+  role="img"
+  aria-label="Next.js Standard Template"
+>
+  <defs>
+    <linearGradient
+      id="background"
+      x1="0"
+      y1="0"
+      x2="1"
+      y2="1"
+    >
+      <stop offset="0%" stop-color="#020617" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+  </defs>
+
+  <rect
+    width="512"
+    height="512"
+    rx="112"
+    fill="url(#background)"
+  />
+
+  <path
+    d="M146 366V146h54l112 137V146h54v220h-51L200 226v140z"
+    fill="#ffffff"
+  />
+</svg>

@@ -14,7 +14,7 @@ import { LoginForm } from "@/features/auth";
 import { getCurrentSession } from "@/server/authorization";
 
 export const metadata: Metadata = {
-  title: "Login",
+  title: "Masuk",
   description: "Masuk ke aplikasi.",
 };
 
