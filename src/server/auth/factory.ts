@@ -3,9 +3,9 @@ import { betterAuth } from "better-auth/minimal";
 import { nextCookies } from "better-auth/next-js";
 
 import { ROLES } from "@/authorization";
+import { createAuthRateLimitConfig } from "@/security";
 import { createAuthAuditHooks } from "@/server/auth/audit-hooks";
 import type { AppPrismaClient } from "@/server/db/factory";
-
 type CreateAuthOptions = {
   database: AppPrismaClient;
   baseURL: string;
@@ -22,6 +22,7 @@ export function createAuth({
   assignDefaultRole = true,
 }: CreateAuthOptions) {
   return betterAuth({
+    rateLimit: createAuthRateLimitConfig(),
     hooks: createAuthAuditHooks({
       enabled: assignDefaultRole,
     }),
