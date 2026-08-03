@@ -7,7 +7,7 @@ import { getPermissionMutationBlockReason, permissionAssignmentSchema } from "@/
 import { AUDIT_ACTIONS, AUDIT_CATEGORIES } from "@/audit";
 import { PERMISSIONS } from "@/authorization";
 import { safeWriteAuditLog } from "@/server/audit";
-import { requirePermission } from "@/server/authorization";
+import { requirePermissionOrRedirect } from "@/server/authorization";
 import { db } from "@/server/db/client";
 
 function redirectToRoles(notice: string): never {
@@ -26,9 +26,7 @@ function parsePermissionForm(formData: FormData) {
 }
 
 async function requireRoleManagementAccess() {
-  return requirePermission({
-    permission: PERMISSIONS.ROLE_MANAGE,
-  });
+  return requirePermissionOrRedirect(PERMISSIONS.ROLE_MANAGE);
 }
 
 function finishMutation(notice: string): never {

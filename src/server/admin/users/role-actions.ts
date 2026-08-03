@@ -7,7 +7,7 @@ import { getRoleRemovalBlockReason, roleAssignmentSchema } from "@/admin/users";
 import { AUDIT_ACTIONS, AUDIT_CATEGORIES } from "@/audit";
 import { PERMISSIONS, ROLES } from "@/authorization";
 import { safeWriteAuditLog } from "@/server/audit";
-import { requirePermission } from "@/server/authorization";
+import { requirePermissionOrRedirect } from "@/server/authorization";
 import { db } from "@/server/db/client";
 
 function redirectToUsers(notice: string): never {
@@ -26,13 +26,9 @@ function parseAssignmentForm(formData: FormData) {
 }
 
 async function requireRoleAssignmentAccess() {
-  const session = await requirePermission({
-    permission: PERMISSIONS.USER_UPDATE,
-  });
+  const session = await requirePermissionOrRedirect(PERMISSIONS.USER_UPDATE);
 
-  await requirePermission({
-    permission: PERMISSIONS.ROLE_MANAGE,
-  });
+  await requirePermissionOrRedirect(PERMISSIONS.ROLE_MANAGE);
 
   return session;
 }

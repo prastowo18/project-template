@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 
 import { type AdminUserQuery, normalizeAdminUserQuery } from "@/admin/users";
 import { PERMISSIONS, ROLES } from "@/authorization";
@@ -8,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { assignGlobalRole, listAdminUsers, removeGlobalRole } from "@/server/admin/users";
-import { getCurrentSession, hasPermissionForUser, requirePermission } from "@/server/authorization";
+import { hasPermissionForUser, requirePermissionOrRedirect } from "@/server/authorization";
 
 export const metadata: Metadata = {
   title: "Pengguna",
@@ -90,15 +89,7 @@ function createPageHref(query: AdminUserQuery, page: number) {
 }
 
 export default async function AdminUsersPage({ searchParams }: AdminUsersPageProps) {
-  const session = await getCurrentSession();
-
-  if (!session) {
-    redirect("/login");
-  }
-
-  await requirePermission({
-    permission: PERMISSIONS.USER_READ,
-  });
+  const session = await requirePermissionOrRedirect(PERMISSIONS.USER_READ);
 
   const rawSearchParams = await searchParams;
   const query = normalizeAdminUserQuery(rawSearchParams);

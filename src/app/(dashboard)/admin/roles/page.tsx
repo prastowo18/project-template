@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
-import { redirect } from "next/navigation";
 
 import { ROLES } from "@/authorization";
 import { PERMISSIONS } from "@/authorization";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { grantRolePermission, listAdminRoles, revokeRolePermission } from "@/server/admin/roles";
-import { getCurrentSession, hasPermissionForUser, requirePermission } from "@/server/authorization";
+import { hasPermissionForUser, requirePermissionOrRedirect } from "@/server/authorization";
 
 export const metadata: Metadata = {
   title: "Role dan Permission",
@@ -71,15 +70,7 @@ function getFirstValue(value: string | string[] | undefined) {
 }
 
 export default async function AdminRolesPage({ searchParams }: AdminRolesPageProps) {
-  const session = await getCurrentSession();
-
-  if (!session) {
-    redirect("/login");
-  }
-
-  await requirePermission({
-    permission: PERMISSIONS.ROLE_READ,
-  });
+  const session = await requirePermissionOrRedirect(PERMISSIONS.ROLE_READ);
 
   const [result, canManageRoles] = await Promise.all([
     listAdminRoles(),

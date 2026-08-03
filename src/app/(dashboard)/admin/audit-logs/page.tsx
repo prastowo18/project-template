@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 
 import {
   AUDIT_LOG_CATEGORIES,
@@ -13,7 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { listAuditLogs } from "@/server/audit";
-import { getCurrentSession, requirePermission } from "@/server/authorization";
+import { requirePermissionOrRedirect } from "@/server/authorization";
 
 export const metadata: Metadata = {
   title: "Audit Log",
@@ -63,15 +62,7 @@ function displayValue(value: string | null) {
 }
 
 export default async function AuditLogsPage({ searchParams }: AuditLogsPageProps) {
-  const session = await getCurrentSession();
-
-  if (!session) {
-    redirect("/login");
-  }
-
-  await requirePermission({
-    permission: PERMISSIONS.AUDIT_READ,
-  });
+  await requirePermissionOrRedirect(PERMISSIONS.AUDIT_READ);
 
   const query = normalizeAuditLogQuery(await searchParams);
 

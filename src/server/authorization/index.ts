@@ -5,4 +5,5 @@ export {
   requirePermission,
 } from "./access";
 export { AuthenticationRequiredError, AuthorizationDeniedError } from "./errors";
+export { requirePermissionOrRedirect } from "./page-access";
 export { type CurrentSession, getCurrentSession, requireSession } from "./session";
